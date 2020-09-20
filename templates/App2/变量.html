@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>变量语法</title>
+</head>
+<body>
+    {# 数字 #}
+    {{num}}
+    <hr/>
+    {{str}}
+    <hr/>
+    {# 列表只能使用 .0 不能使用下标 [0] #}
+    {{arr.0}}
+    {{arr.1}}
+    <hr/>
+    {# 字典只能使用 .属性名 不能使用下标 #}
+    {{obj.name}}
+    {{obj.age}}
+    <hr/>
+    <hr/>
+    {# 过滤器 #}
+    <p>
+        {{num|add:'10'}}
+    </p>
+    <p>
+        {{tel|default_if_none:'变量为none时默认值'}}
+    </p>
+    <p>
+        {{email|default:'变量没有传的默认值'}}
+    </p>
+    <p>
+        {{date|date:'y-m-d h'}}
+    </p>
+
+    <p>
+        可以解析字符串中的标签
+        {% autoescape off %}
+        {{dom}}
+        {% endautoescape %}
+    </p>
+    
+</body>
+</html>
