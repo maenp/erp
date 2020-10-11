@@ -73,3 +73,7 @@ def register(req):
 
 def inclute(req):
     return render(req,"App2/inclute.html")
+def static(req):
+    return render(req,"index.html")
+def jinja2(req):
+    return render(req,"index1.html")

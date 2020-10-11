@@ -6,4 +6,4 @@ class User(models.Model):
     password=models.CharField(max_length=128)
 
     class Meta:
-        db_table='user'
+        db_table='text_user'

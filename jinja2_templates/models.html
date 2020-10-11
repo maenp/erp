@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>模型首页</title>
+</head>
+<body>
+    <ul>
+    
+        {% for item in arr %}
+            <li>    
+                <a href="{{url(item.url)}}">{{item.name}}</a>
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

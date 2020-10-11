@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>查询首页</title>
+</head>
+<body>
+    <ul>
+    
+        {% for item in data %}
+            <li>    
+                {{item.username}}------{{item.password}}
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

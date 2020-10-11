@@ -8,4 +8,7 @@ urlpatterns = [
     path('var/',views.var,name='var'),
     path('register/',views.register,name='register'),
     path('inclute/',views.inclute,name='inclute'),
+    path('static/',views.static,name='static'),
+    path('jinja2/',views.jinja2,name='jinja2'),
+
 ]

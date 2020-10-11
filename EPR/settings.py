@@ -28,6 +28,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
+#指定自定义用户模型所在位置 是为了让Django用户认证系统使用我们自定义的用户模型
+AUTH_USER_MODEL='userApp.User'
 
 # Application definition
 
@@ -38,12 +40,19 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'App'
+    'corsheaders',#配置跨域
+    'userApp',
+    'csmApp',
+    # 'App',
+    # 'App2',
+    # 'App3',
 ]
 # 中间件
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    #跨域配置 放最前面
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',# 防止csrf攻击用的 
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -53,12 +62,41 @@ MIDDLEWARE = [
 # 根路由位置
 ROOT_URLCONF = 'EPR.urls'
 # 模板配置
+# TEMPLATES = [
+    # {
+    #     'BACKEND': 'django.template.backends.django.DjangoTemplates',
+    #     'DIRS': [os.path.join(BASE_DIR,'templates')],
+    #     'APP_DIRS': True,
+    #     'OPTIONS': {
+    #         'context_processors': [
+    #             'django.template.context_processors.debug',
+    #             'django.template.context_processors.request',
+    #             'django.contrib.auth.context_processors.auth',
+    #             'django.contrib.messages.context_processors.messages',
+    #         ],
+    #     },
+    # },
+# ]
 TEMPLATES = [
-    {
+    { #django 模板配置
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [os.path.join(BASE_DIR,'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
+            'context_processors': [
+                'django.template.context_processors.debug',
+                'django.template.context_processors.request',
+                'django.contrib.auth.context_processors.auth',
+                'django.contrib.messages.context_processors.messages',
+            ],
+        },
+    },
+    { #jinja2 模板配置
+        'BACKEND': 'django.template.backends.jinja2.Jinja2',
+        'DIRS': [os.path.join(BASE_DIR,'jinja2_templates')],
+        'APP_DIRS': False,
+        'OPTIONS': {
+            'environment':'EPR.jinja2_env.environment',
             'context_processors': [
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
@@ -78,10 +116,20 @@ WSGI_APPLICATION = 'EPR.wsgi.application'
 # 数据库配置
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME':'epr',                      #数据库名
+        'HOST': 'cdb-0yodpccg.cd.tencentcdb.com',#主机地址
+        'USER':'root',                           #用户名
+        'PASSWORD':'mm5202000',                  #密码
+        'PORT':10048                             #端口
     }
 }
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+#     }
+# }
 
 
 # Password validation
@@ -126,5 +174,45 @@ USE_TZ = False
 # 静态资源目录
 STATIC_URL = '/static/'
 STATICFILES_DIRS=[
-    os.path.join(BASE_DIR,'static')
+    os.path.join(BASE_DIR,'static')  #
 ]
+
+#跨域配置··················································                      
+
+#如果为True，则将允许将cookie包含在跨站点HTTP请求中。默认为False
+CORS_ALLOW_CREDENTIALS = True
+
+#添加允许执行跨站点请求的主机 如果为True，则将不使用白名单，并且将接受所有来源。默认为False
+# CORS_ORIGIN_ALLOW_ALL = True
+
+#授权进行跨站点HTTP请求的来源列表(白名单)。默认为[]
+CORS_ORIGIN_WHITELIST =[
+    "https://example.com",
+    "http://127.0.0.1:3000",
+    "http://localhost:3000"
+]
+#实际请求所允许的HTTP动词列表。
+CORS_ALLOW_METHODS = (
+	'DELETE',
+	'GET',
+	'OPTIONS',
+	'PATCH',
+	'POST',
+	'PUT',
+	'VIEW',
+)
+#发出实际请求时可以使用的非标准HTTP标头的列表。
+CORS_ALLOW_HEADERS = (
+	'XMLHttpRequest',
+	'X_FILENAME',
+	'accept-encoding',
+	'authorization',
+	'content-type',
+	'dnt',
+	'origin',
+	'user-agent',
+	'x-csrftoken',
+	'x-requested-with',
+	'Pragma',
+)
+#··················································
