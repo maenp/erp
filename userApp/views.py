@@ -61,8 +61,11 @@ def _logout(req):
 #判断是否登录
 def is_login(req):
     is_login_status=req.user.is_authenticated
-    print(req.user.id)
-    return JsonResponse({"code":0,"msg":is_login_status})
+    return JsonResponse({"code":0,"msg":'成功','obj':{
+        'status':is_login_status,
+        'username':req.user.username,
+        'id':req.user.id
+    }})
     
 #修改密码
 def change_password(req):
