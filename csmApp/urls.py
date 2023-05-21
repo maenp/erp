@@ -17,7 +17,10 @@ urlpatterns = [
     path('remove_tab/',views.remove_tab,name='remove_tab'),
 
     path('get_goods/',views.get_goods,name='get_goods'),
+    path('vagueget_goods/',views.vagueget_goods,name='vagueget_goods'),
     path('add_goods/',views.add_goods,name='add_goods'),
     path('remove_goods/',views.remove_goods,name='remove_goods'),
     path('update_goods/',views.update_goods,name='update_goods'),
+
+    path('get_order/',views.get_order,name='get_order'),
 ]

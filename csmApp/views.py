@@ -4,7 +4,13 @@ import datetime
 from django.views.decorators.csrf import csrf_exempt
 import random
 from django.core import serializers
-from csmApp.models import clientInfo,supplierInfo,tabsInfo,goodsInfo
+from csmApp.models import clientInfo,supplierInfo,tabsInfo,goodsInfo,orderInfo,orderGoodsInfo
+
+
+def get_order(req):
+    data=orderInfo.objects.filter(uid=req.user.id)
+    data = serializers.serialize("python", data)
+    return JsonResponse({"code":0,"obj":data,"msg":'成功'})
 
 # 商品信息---------------------
 def remove_goods(req):
@@ -22,8 +28,16 @@ def get_goods(req):
         data=data.filter(tab_key=tab_name)
     data = serializers.serialize("python", data)
     return JsonResponse({"code":0,"obj":data,"msg":'成功'})
+def vagueget_goods(req):
+    tab_name=req.GET.get("tab_name")
+    print(tab_name)
+    data=goodsInfo.objects.filter(uid=req.user.id)
+    if tab_name :
+        data=data.filter(tab_name__contains=tab_name)#模糊查询
+    data = serializers.serialize("python", data)
+    return JsonResponse({"code":0,"obj":data,"msg":'成功'})
 def add_goods(req):
-    goods={ 
+    goods={
         'goods_name':req.POST.get("goods_name"),
         'remark':req.POST.get("remark"),
         'specification':req.POST.get("specification"),

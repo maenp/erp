@@ -2,7 +2,7 @@ from django.db import models
 
 # Create your models here.
 class clientInfo(models.Model):
-    client_name=models.CharField(max_length=50,verbose_name='客户名称')
+    client_name=models.CharField(unique=True,max_length=50,verbose_name='客户名称')
     link_man=models.CharField(max_length=10,verbose_name='联系人')
     link_tel=models.CharField(max_length=12,verbose_name='联系电话')
     # delivery_day=models.DateTimeField(max_length=128,verbose_name='交货时间')
@@ -53,5 +53,40 @@ class goodsInfo(models.Model):
     class Meta:
         db_table='goods_info'
         verbose_name='商品表'
+
+
+class orderGoodsInfo(models.Model):
+    goods = models.ForeignKey('goodsInfo',on_delete=models.CASCADE,verbose_name='商品')
+    order_id=models.IntegerField(verbose_name='销售单号')
+    sale_num=models.IntegerField(verbose_name='销售数量')
+    class Meta:
+        db_table='orderGoods_info'
+        verbose_name='订单商品表'
+
+class orderInfo(models.Model):
+    id = models.AutoField(primary_key=True,verbose_name='销售单号')
+
+    sale_date=models.DateField(verbose_name='销售日期')
+
+    client =models.CharField(max_length=50,verbose_name='客户')
+    client_man =models.CharField(null=True, blank=True,max_length=50,verbose_name='联系人')
+    client_tel = models.CharField(null=True, blank=True,max_length=11,verbose_name='联系电话')
+
+    delivery_site=models.CharField(max_length=100,verbose_name='交货地址')
+    delivery_date=models.DateField(verbose_name='交货日期')
+    total_price=models.FloatField(verbose_name='总金额')
+    order_finish=models.BooleanField(default=False,verbose_name='订单完成状态')
+
+    remark=models.TextField(null=True, blank=True,verbose_name='备注')
+    sale=models.CharField(null=True, blank=True,max_length=50,verbose_name='销售方')
+    sale_man=models.CharField(null=True, blank=True,max_length=50,verbose_name='销售员')
+    sale_tel=models.CharField(null=True, blank=True,max_length=50,verbose_name='联系电话')
+
+
+    uid=models.IntegerField(default=10)
+    create_time=models.DateTimeField(auto_now_add=True)
+    class Meta:
+        db_table='order_info'
+        verbose_name='订单表'
 
 
